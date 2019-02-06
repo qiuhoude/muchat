@@ -1,0 +1,13 @@
+.title{
+	background: #C9394a;
+}
+
+.title-color{
+	color: white;
+	
+}
+
+/* 底部导航栏选中颜色 */
+.mui-bar-tab .mui-tab-item.mui-active{
+	color: #C9394a;
+}

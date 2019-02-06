@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/header.css" />
+		<link rel="stylesheet" type="text/css" href="fontico/iconfont.css" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+
+			// 沉浸式标题栏 H5+ 的api
+			mui.plusReady(function() {
+				plus.navigator.setStatusBarStyle("light")
+				plus.navigator.setStatusBarBackground("#C9394A")
+			});
+		</script>
+	</head>
+	<body>
+		<!-- 头部 -->
+		<header class="mui-bar mui-bar-nav title">
+			<h1 class="mui-title title-color"><b>仿信</b></h1>
+		</header>
+
+		<!-- 底部栏 -->
+		<!-- icon 库 https://www.iconfont.cn -->
+		<nav class="mui-bar mui-bar-tab">
+			<!-- mui-active 默认选中 -->
+			<a class="mui-tab-item mui-active" tabindex="0">
+				<span class="mui-icon iconfont icon-icon-"></span>
+				<span class="mui-tab-label">仿信</span>
+			</a>
+			<a class="mui-tab-item" tabindex="1">
+				<span class="mui-icon mui-icon-contact"></span>
+				<span class="mui-tab-label">通讯录</span>
+			</a>
+			<a class="mui-tab-item" tabindex="2">
+				<span class="mui-icon mui-icon-navigate"></span>
+				<span class="mui-tab-label">发现</span>
+			</a>
+			<a class="mui-tab-item" tabindex="3">
+				<span class="mui-icon mui-icon-person"></span>
+				<span class="mui-tab-label">我</span>
+			</a>
+		</nav>
+		<script type="text/javascript">
+			// 主页面的数组
+			var mxinArr = [{
+					pageId: "chatlist.html",
+					pageUrl: "chatlist.html",
+
+				},
+				{
+					pageId: "contact.html",
+					pageUrl: "contact.html",
+
+				},
+				{
+					pageId: "discover.html",
+					pageUrl: "discover.html",
+
+				},
+				{
+					pageId: "me.html",
+					pageUrl: "me.html",
+
+				},
+			];
+
+			// tab页的样式
+			var mxinStyle = {
+				top: "40px",
+				bottom: "50px"
+			}
+			// h5+ api
+			mui.plusReady(function() {
+				// 获取当前的webview
+				var curWebview = plus.webview.currentWebview();
+
+				for (var i = 0; i < mxinArr.length; i++) {
+					var url = mxinArr[i].pageUrl;
+					var id = mxinArr[i].pageId;
+					//创建webview
+					var mxinPage = plus.webview.create(url, id, mxinStyle);
+					// 隐藏webView窗口
+					mxinPage.hide();
+					// 添加到主页面
+					curWebview.append(mxinPage);
+				}
+				// 显示一个webview
+				plus.webview.show(mxinArr[0]);
+
+				//批量绑定tab事件,切换不同的页面
+				mui(".mui-bar-tab").on("tap", "a", function() {
+					//获取tabindex
+					var tabindex = this.getAttribute("tabindex");
+					plus.webview.show(mxinArr[tabindex].pageId, "pop-in", 200); //显示
+					// 隐藏不需要的tap页签
+					for (var i = 0; i < mxinArr.length; i++) {
+						if (i != tabindex) {
+							plus.webview.hide(mxinArr[i].pageId, "pop-out", 200);
+						}
+					}
+
+				});
+			});
+		</script>
+	</body>
+</html>
